@@ -1,4 +1,4 @@
-module Postcoder
+module Pcoder
   require 'mechanize'
 
   class Atcoder
