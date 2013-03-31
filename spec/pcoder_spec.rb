@@ -139,5 +139,17 @@ module Pcoder
         it { atcoder.send(:language_value, "JavaScript").should eq "15" }
       end
     end
+
+    describe "#submit" do
+      let(:agent) { atcoder.send(:login, ATCODER_USER, ATCODER_PASS, SPEC_HOST) }
+
+      context "with nil" do
+        it { proc {atcoder.send(:submit, agent, nil, nil, nil)}.should raise_error("InputFormError") }
+      end
+
+      context "with source_code is empty" do
+        it { proc {atcoder.send(:submit, agent, "440", "1", "")}.should raise_error("InputFormError") }
+      end
+    end
   end
 end

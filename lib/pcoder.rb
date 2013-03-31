@@ -12,11 +12,9 @@ module Pcoder
       task_id = get_task_id(agent, assignment)
       language_name = language(extension)
       language_value = language_value(language_name)
-      raise "InputFormError" if task_id.nil? || language_value.nil?
-      agent.page.form_with do |f|
-        f.field_with(:name => "task_id").value = task_id
-        f.field_with(:name => "language_id_#{task_id}").value = language_value
-      end.click_button
+      source_code =  File.open(file).read
+      p source_code
+      # submit(agent, task_id, language_value, source_code)
     end
 
     private
@@ -71,6 +69,18 @@ module Pcoder
         "15" => "JavaScript"
       }
       language_value.key(language_name)
+    end
+
+    def submit(agent, task_id, language_value, source_code)
+      raise "InputFormError" if task_id.nil? || language_value.nil? || source_code.nil?
+      agent.get("http://#{agent.page.uri.host}/submit")
+      agent.page.form_with do |f|
+        f.field_with(:name => "task_id").value = task_id
+        f.field_with(:name => "language_id_#{task_id}").value = language_value
+        f.field_with(:name => "source_code").value = source_code
+      end.click_button
+      raise "InputFormError" if agent.page.uri.path == "/submit"
+      true
     end
   end
 end
