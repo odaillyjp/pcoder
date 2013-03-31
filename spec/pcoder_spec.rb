@@ -87,5 +87,51 @@ module Pcoder
         it { atcoder.send(:language, "").should be_nil }
       end
     end
+
+    describe "#language_value" do
+      context "with \"C\"" do
+        it { atcoder.send(:language_value, "C").should eq "1" }
+      end
+
+      context "with \"C++\"" do
+        it { atcoder.send(:language_value, "C++").should eq "2" }
+      end
+
+      context "with \"Java\"" do
+        it { atcoder.send(:language_value, "Java").should eq "3" }
+      end
+
+      context "with \"PHP\"" do
+        it { atcoder.send(:language_value, "PHP").should eq "5" }
+      end
+
+      context "with \"D\"" do
+        it { atcoder.send(:language_value, "D").should eq "6" }
+      end
+
+      context "with \"Python\"" do
+        it { atcoder.send(:language_value, "Python").should eq "7" }
+      end
+
+      context "with \"Perl\"" do
+        it { atcoder.send(:language_value, "Perl").should eq "8" }
+      end
+
+      context "with \"Ruby\"" do
+        it { atcoder.send(:language_value, "Ruby").should eq "9" }
+      end
+
+      context "with \"haskell\"" do
+        it { atcoder.send(:language_value, "Haskell").should eq "11" }
+      end
+
+      context "with \"Pascal\"" do
+        it { atcoder.send(:language_value, "Pascal").should eq "12" }
+      end
+
+      context "with \"JavaScript\"" do
+        it { atcoder.send(:language_value, "JavaScript").should eq "15" }
+      end
+    end
   end
 end
