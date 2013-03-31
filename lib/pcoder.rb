@@ -13,10 +13,12 @@ module Pcoder
       task_id = get_task_id(agent, assignment)
       language_name = language(extension)
       language_value = language_value(language_name)
+      raise "InputFormError" if task_id.nil? || language_value.nil?
       agent.page.form_with do |f|
         f.field_with(:name => "task_id").value = task_id
         f.field_with(:name => "language_id_#{task_id}").value = language_value
       end.click_button
+
     end
 
     private
