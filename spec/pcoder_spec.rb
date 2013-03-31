@@ -5,12 +5,24 @@ require 'lib/pcoder'
 require 'spec/tmp/account.rb'
 
 module Pcoder
+  CONTEST_HOME_URI = "http://arc013.contest.atcoder.jp"
+
   describe Atcoder do
     let(:atcoder) { Atcoder.new() }
 
     describe "#submit" do
       it "コードが提出されること" do
         pending
+      end
+    end
+
+    describe "#login" do
+      context "with not_user, not_path" do
+        it { atcoder.send(:login, 'foo', 'bar', CONTEST_HOME_URI).should be_nil }
+      end
+
+      context "with user, path" do
+        it { atcoder.send(:login, ATCODER_USER, ATCODER_PASS, CONTEST_HOME_URI).class.should eq Mechanize }
       end
     end
 
