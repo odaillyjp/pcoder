@@ -16,6 +16,8 @@ module Pcoder
       end.click_button
     end
 
+    private
+
     def login(user, pass, uri)
       agent = Mechanize.new
       agent.get("#{uri}/login")
@@ -27,7 +29,22 @@ module Pcoder
       return nil if agent.page.uri == before_uri
       agent
     end
+
+    def language(extension)
+      case extension
+      when "c" then "C"
+      when "cc", "cpp" then "C++"
+      when "d" then "D"
+      when "java" then "Java"
+      when "php" then "PHP"
+      when "py" then "Python"
+      when "pl" then "Perl"
+      when "rb" then "Ruby"
+      when "hs" then "Haskell"
+      when "p", "pp", "pas" then "Pascal"
+      when "js" then "JavaScript"
+      else nil
+      end
+    end
   end
 end
-
-Pcoder::Atcoder.new.submit("user","pass","arc012.rb")
