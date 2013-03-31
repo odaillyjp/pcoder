@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+$LOAD_PATH << File.expand_path('../../', __FILE__)
+require 'lib/pcoder'
+require 'highline'
+
+if ARGV[0].nil?
+  puts "Please specify a file and try again."
+  exit
+end
+
+user = HighLine.new.ask("Enter your user id:  ")
+pass = HighLine.new.ask("Enter your password:  ") { |q| q.echo = "*" }
+Pcoder::Atcoder.new.process(user, pass, ARGV[0])

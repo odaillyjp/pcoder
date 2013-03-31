@@ -4,7 +4,8 @@ module Pcoder
   ATCODER_CONTEST_HOST = "contest.atcoder.jp"
 
   class Atcoder
-    def process(user, pass, file)
+    def process(user, pass, path)
+      file = path.split("/").last
       contest, assignment, extension = file.split(/[_.]/)
       host = "#{contest}.#{ATCODER_CONTEST_HOST}"
       agent = login(user, pass, host)
@@ -12,9 +13,9 @@ module Pcoder
       task_id = get_task_id(agent, assignment)
       language_name = language(extension)
       language_value = language_value(language_name)
-      source_code =  File.open(file).read
-      p source_code
-      # submit(agent, task_id, language_value, source_code)
+      source_code = File.open(path).read
+      submit(agent, task_id, language_value, source_code)
+      puts "Successfully uploaded."
     end
 
     private
@@ -80,7 +81,6 @@ module Pcoder
         f.field_with(:name => "source_code").value = source_code
       end.click_button
       raise "InputFormError" if agent.page.uri.path == "/submit"
-      true
     end
   end
 end
