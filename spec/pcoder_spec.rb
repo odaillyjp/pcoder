@@ -10,12 +10,6 @@ module Pcoder
   describe Atcoder do
     let(:atcoder) { Atcoder.new }
 
-    describe "#submit" do
-      it "コードが提出されること" do
-        pending
-      end
-    end
-
     describe "#login" do
       context "with not_user, not_path" do
         it { atcoder.send(:login, 'foo', 'bar', SPEC_HOST).should be_nil }

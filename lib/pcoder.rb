@@ -4,7 +4,7 @@ module Pcoder
   ATCODER_CONTEST_HOST = "contest.atcoder.jp"
 
   class Atcoder
-    def submit(user, pass, file)
+    def process(user, pass, file)
       contest, assignment, extension = file.split(/[_.]/)
       host = "#{contest}.#{ATCODER_CONTEST_HOST}"
       agent = login(user, pass, host)
