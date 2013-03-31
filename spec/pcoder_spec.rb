@@ -5,7 +5,7 @@ require 'lib/pcoder'
 require 'spec/tmp/account.rb'
 
 module Pcoder
-  CONTEST_HOME_URI = "http://arc012.contest.atcoder.jp"
+  SPEC_HOST = "arc012.contest.atcoder.jp"
 
   describe Atcoder do
     let(:atcoder) { Atcoder.new }
@@ -18,29 +18,23 @@ module Pcoder
 
     describe "#login" do
       context "with not_user, not_path" do
-        it { atcoder.send(:login, 'foo', 'bar', CONTEST_HOME_URI).should be_nil }
+        it { atcoder.send(:login, 'foo', 'bar', SPEC_HOST).should be_nil }
       end
 
       context "with user, path" do
-        it { atcoder.send(:login, ATCODER_USER, ATCODER_PASS, CONTEST_HOME_URI).class.should eq Mechanize }
+        it { atcoder.send(:login, ATCODER_USER, ATCODER_PASS, SPEC_HOST).class.should eq Mechanize }
       end
     end
 
     describe "#get_task_id" do
-      let(:agent) { atcoder.send(:login, ATCODER_USER, ATCODER_PASS, CONTEST_HOME_URI) }
+      let(:agent) { atcoder.send(:login, ATCODER_USER, ATCODER_PASS, SPEC_HOST) }
 
       context "with agent, \"1\"" do
-        it do
-          agent.get("#{CONTEST_HOME_URI}/submit")
-          atcoder.send(:get_task_id, agent, "1").should eq "440"
-        end
+        it { atcoder.send(:get_task_id, agent, "1").should eq "440" }
       end
 
       context "with agent, \"2\"" do
-        it do
-          agent.get("#{CONTEST_HOME_URI}/submit")
-          atcoder.send(:get_task_id, agent, "2").should eq "441"
-        end
+        it { atcoder.send(:get_task_id, agent, "2").should eq "441" }
       end
     end
 

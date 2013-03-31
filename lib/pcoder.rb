@@ -1,15 +1,14 @@
 require 'mechanize'
 
 module Pcoder
-  ATCODER_URI = "contest.atcoder.jp"
+  ATCODER_CONTEST_HOST = "contest.atcoder.jp"
 
   class Atcoder
     def submit(user, pass, file)
       contest, assignment, extension = file.split(/[_.]/)
-      uri = "http://#{contest}.#{ATCODER_URI}"
-      agent = login(user, pass, uri)
+      host = "#{contest}.#{ATCODER_CONTEST_HOST}"
+      agent = login(user, pass, host)
       raise "LoginError" if agent.nil?
-      agent.get("#{uri}/submit")
       task_id = get_task_id(agent, assignment)
       language_name = language(extension)
       language_value = language_value(language_name)
@@ -18,14 +17,13 @@ module Pcoder
         f.field_with(:name => "task_id").value = task_id
         f.field_with(:name => "language_id_#{task_id}").value = language_value
       end.click_button
-
     end
 
     private
 
-    def login(user, pass, uri)
+    def login(user, pass, host)
       agent = Mechanize.new
-      agent.get("#{uri}/login")
+      agent.get("http://#{host}/login")
       before_uri = agent.page.uri
       agent.page.form_with do |f|
         f.field_with(:name => "name").value = user
@@ -36,6 +34,7 @@ module Pcoder
     end
 
     def get_task_id(agent, assignment)
+      agent.get("http://#{agent.page.uri.host}/submit")
       selecter = "//select[@id=\"submit-task-selector\"]/option[#{assignment}]"
       agent.page.at(selecter)['value']
     end
