@@ -63,117 +63,75 @@ module Pcoder
 
     describe "#language" do
       context "with \"c\"" do
-        it { atcoder.send(:language, "c").should eq "C" }
+        it { atcoder.send(:language, "c").should eq "1" }
       end
 
       context "with \"cc\"" do
-        it { atcoder.send(:language, "cc").should eq "C++" }
+        it { atcoder.send(:language, "cc").should eq "2" }
       end
 
       context "with \"cpp\"" do
-        it { atcoder.send(:language, "cpp").should eq "C++" }
-      end
-
-      context "with \"d\"" do
-        it { atcoder.send(:language, "d").should eq "D" }
+        it { atcoder.send(:language, "cpp").should eq "2" }
       end
 
       context "with \"java\"" do
-        it { atcoder.send(:language, "java").should eq "Java" }
+        it { atcoder.send(:language, "java").should eq "3" }
       end
 
       context "with \"php\"" do
-        it { atcoder.send(:language, "php").should eq "PHP" }
+        it { atcoder.send(:language, "php").should eq "5" }
+      end
+
+      context "with \"d\"" do
+        it { atcoder.send(:language, "d").should eq "6" }
       end
 
       context "with \"py\"" do
-        it { atcoder.send(:language, "py").should eq "Python" }
+        it { atcoder.send(:language, "py").should eq "7" }
       end
 
       context "with \"pl\"" do
-        it { atcoder.send(:language, "pl").should eq "Perl" }
+        it { atcoder.send(:language, "pl").should eq "8" }
       end
 
       context "with \"rb\"" do
-        it { atcoder.send(:language, "rb").should eq "Ruby" }
+        it { atcoder.send(:language, "rb").should eq "9" }
       end
 
       context "with \"hs\"" do
-        it { atcoder.send(:language, "hs").should eq "Haskell" }
+        it { atcoder.send(:language, "hs").should eq "11" }
       end
 
       context "with \"p\"" do
-        it { atcoder.send(:language, "p").should eq "Pascal" }
+        it { atcoder.send(:language, "p").should eq "12" }
       end
 
       context "with \"pp\"" do
-        it { atcoder.send(:language, "pp").should eq "Pascal" }
+        it { atcoder.send(:language, "pp").should eq "12" }
       end
 
       context "with \"pas\"" do
-        it { atcoder.send(:language, "pas").should eq "Pascal" }
+        it { atcoder.send(:language, "pas").should eq "12" }
       end
 
       context "with \"js\"" do
-        it { atcoder.send(:language, "js").should eq "JavaScript" }
+        it { atcoder.send(:language, "js").should eq "15" }
+      end
+
+      context "with \"vb\"" do
+        it { atcoder.send(:language, "vb").should eq "16" }
+      end
+
+      context "with \"txt\"" do
+        it { atcoder.send(:language, "txt").should eq "17" }
+      end
+
+      context "with \"text\"" do
+        it { atcoder.send(:language, "text").should eq "17" }
       end
 
       context "with \"\"" do
         it { atcoder.send(:language, "").should be_nil }
-      end
-    end
-
-    describe "#language_value" do
-      context "with \"C\"" do
-        it { atcoder.send(:language_value, "C").should eq "1" }
-      end
-
-      context "with \"C++\"" do
-        it { atcoder.send(:language_value, "C++").should eq "2" }
-      end
-
-      context "with \"Java\"" do
-        it { atcoder.send(:language_value, "Java").should eq "3" }
-      end
-
-      context "with \"PHP\"" do
-        it { atcoder.send(:language_value, "PHP").should eq "5" }
-      end
-
-      context "with \"D\"" do
-        it { atcoder.send(:language_value, "D").should eq "6" }
-      end
-
-      context "with \"Python\"" do
-        it { atcoder.send(:language_value, "Python").should eq "7" }
-      end
-
-      context "with \"Perl\"" do
-        it { atcoder.send(:language_value, "Perl").should eq "8" }
-      end
-
-      context "with \"Ruby\"" do
-        it { atcoder.send(:language_value, "Ruby").should eq "9" }
-      end
-
-      context "with \"haskell\"" do
-        it { atcoder.send(:language_value, "Haskell").should eq "11" }
-      end
-
-      context "with \"Pascal\"" do
-        it { atcoder.send(:language_value, "Pascal").should eq "12" }
-      end
-
-      context "with \"JavaScript\"" do
-        it { atcoder.send(:language_value, "JavaScript").should eq "15" }
-      end
-
-      context "with \"Visual Basic\"" do
-        it { atcoder.send(:language_value, "Visual Basic").should eq "16" }
-      end
-
-      context "with \"Text\"" do
-        it { atcoder.send(:language_value, "Text").should eq "17" }
       end
     end
 

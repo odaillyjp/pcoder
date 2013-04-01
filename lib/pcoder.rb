@@ -13,8 +13,7 @@ module Pcoder
       agent = login(user, pass, host)
       raise LoginError if agent.nil?
       task_id = get_task_id(agent, task)
-      language_name = language(extension)
-      language_value = language_value(language_name)
+      language_value = language(extension)
       source_code = File.open(path).read
       receiver.submit(agent, task_id, language_value, source_code)
       puts "Successfully uploaded." if receiver == self
@@ -66,40 +65,34 @@ module Pcoder
 
     def language(extension)
       case extension
-      when "c" then "C"
-      when "cc", "cpp" then "C++"
-      when "d" then "D"
-      when "java" then "Java"
-      when "php" then "PHP"
-      when "py" then "Python"
-      when "pl" then "Perl"
-      when "rb" then "Ruby"
-      when "hs" then "Haskell"
-      when "p", "pp", "pas" then "Pascal"
-      when "js" then "JavaScript"
-      when "vb" then "Visuak Basic"
-      when "txt", "text" then "Text"
+      # C
+      when "c" then "1"
+      # C++
+      when "cc", "cpp" then "2"
+      # Java
+      when "java" then "3"
+      # PHP
+      when "php" then "5"
+      # D
+      when "d" then "6"
+      # Python
+      when "py" then "7"
+      # Perl
+      when "pl" then "8"
+      # Ruby
+      when "rb" then "9"
+      # Haskell
+      when "hs" then "11"
+      # Pascal
+      when "p", "pp", "pas" then "12"
+      # HavaScript
+      when "js" then "15"
+      # Visual Basic
+      when "vb" then "16"
+      # Text
+      when "txt", "text" then "17"
       else nil
       end
-    end
-
-    def language_value(language_name)
-      language_value = {
-        "1" => "C",
-        "2" => "C++",
-        "3" => "Java",
-        "5" => "PHP",
-        "6" => "D",
-        "7" => "Python",
-        "8" => "Perl",
-        "9" => "Ruby",
-        "11" => "Haskell",
-        "12" => "Pascal",
-        "15" => "JavaScript",
-        "16" => "Visual Basic",
-        "17" => "Text"
-      }
-      language_value.key(language_name)
     end
   end
 
