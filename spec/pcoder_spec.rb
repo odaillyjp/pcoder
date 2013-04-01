@@ -13,9 +13,9 @@ module Pcoder
     describe "#process" do
       context "with user, pass, path, mock_model" do
         it "call Atcoder#submit with code" do
-          path = File.expand_path("../tmp/arc012_1.rb", __FILE__)
+          path = File.expand_path("../tmp/practice_1.rb", __FILE__)
           receiver = double("atcoder")
-          receiver.should_receive(:submit).with(kind_of(Mechanize), "440", "9", "# Method check.\n")
+          receiver.should_receive(:submit).with(kind_of(Mechanize), "207", "9", "# Method check.\n")
           atcoder.process(ATCODER_USER, ATCODER_PASS, path, receiver)
         end
       end
