@@ -8,7 +8,7 @@ module Pcoder
       file = path.split("/").last
       contest, assignment, extension = file.split(/[_.]/)
       contest = ARGV[1] if ARGV[1]
-      assignment = ARGV[2] if ARGV[2]
+      assignment = ("@".."Z").to_a.index(ARGV[2]) if ARGV[2]
       host = "#{contest}.#{ATCODER_CONTEST_HOST}"
       agent = login(user, pass, host)
       raise "LoginError" if agent.nil?
@@ -53,6 +53,8 @@ module Pcoder
       when "hs" then "Haskell"
       when "p", "pp", "pas" then "Pascal"
       when "js" then "JavaScript"
+      when "vb" then "Visuak Basic"
+      when "txt", "text" then "Text"
       else nil
       end
     end
@@ -69,7 +71,9 @@ module Pcoder
         "9" => "Ruby",
         "11" => "Haskell",
         "12" => "Pascal",
-        "15" => "JavaScript"
+        "15" => "JavaScript",
+        "16" => "Visual Basic",
+        "17" => "Text"
       }
       language_value.key(language_name)
     end

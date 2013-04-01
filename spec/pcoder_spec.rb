@@ -149,6 +149,14 @@ module Pcoder
       context "with \"JavaScript\"" do
         it { atcoder.send(:language_value, "JavaScript").should eq "15" }
       end
+
+      context "with \"Visual Basic\"" do
+        it { atcoder.send(:language_value, "Visual Basic").should eq "16" }
+      end
+
+      context "with \"Text\"" do
+        it { atcoder.send(:language_value, "Text").should eq "17" }
+      end
     end
 
     describe "#submit" do
