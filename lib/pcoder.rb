@@ -4,9 +4,11 @@ module Pcoder
   ATCODER_CONTEST_HOST = "contest.atcoder.jp"
 
   class Atcoder
-    def process(user, pass, path)
+    def process(user, pass, path, receiver = self)
       file = path.split("/").last
       contest, assignment, extension = file.split(/[_.]/)
+      contest = ARGV[1] if ARGV[1]
+      assignment = ARGV[2] if ARGV[2]
       host = "#{contest}.#{ATCODER_CONTEST_HOST}"
       agent = login(user, pass, host)
       raise "LoginError" if agent.nil?
@@ -14,8 +16,8 @@ module Pcoder
       language_name = language(extension)
       language_value = language_value(language_name)
       source_code = File.open(path).read
-      submit(agent, task_id, language_value, source_code)
-      puts "Successfully uploaded."
+      receiver.submit(agent, task_id, language_value, source_code)
+      puts "Successfully uploaded." if receiver == self
     end
 
     private

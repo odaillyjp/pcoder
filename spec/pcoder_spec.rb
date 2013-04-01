@@ -10,12 +10,23 @@ module Pcoder
   describe Atcoder do
     let(:atcoder) { Atcoder.new }
 
+    describe "#process" do
+      context "with user, pass, path, mock_model" do
+        it "call Atcoder#submit with code" do
+          path = File.expand_path("../tmp/arc012_1.rb", __FILE__)
+          receiver = double("atcoder")
+          receiver.should_receive(:submit).with(kind_of(Mechanize), "440", "9", "# Method check.\n")
+          atcoder.process(ATCODER_USER, ATCODER_PASS, path, receiver)
+        end
+      end
+    end
+
     describe "#login" do
-      context "with not_user, not_path" do
+      context "with not_user, not_pass" do
         it { atcoder.send(:login, 'foo', 'bar', SPEC_HOST).should be_nil }
       end
 
-      context "with user, path" do
+      context "with user, pass" do
         it { atcoder.send(:login, ATCODER_USER, ATCODER_PASS, SPEC_HOST).class.should eq Mechanize }
       end
     end
@@ -147,7 +158,7 @@ module Pcoder
         it { proc {atcoder.send(:submit, agent, nil, nil, nil)}.should raise_error("InputFormError") }
       end
 
-      context "with source_code is empty" do
+      context "with source code is empty" do
         it { proc {atcoder.send(:submit, agent, "440", "1", "")}.should raise_error("InputFormError") }
       end
     end
