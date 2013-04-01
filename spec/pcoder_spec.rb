@@ -31,6 +31,24 @@ module Pcoder
       end
     end
 
+    describe "#to_task_number" do
+      context "with \"A\"" do
+        it { atcoder.send(:to_task_number, "A").should eq "1" }
+      end
+
+      context "with \"B\"" do
+        it { atcoder.send(:to_task_number, "B").should eq "2" }
+      end
+
+      context "with \"a\"" do
+        it { atcoder.send(:to_task_number, "a").should eq "1" }
+      end
+
+      context "with \"1\"" do
+        it { atcoder.send(:to_task_number, "1").should eq "" }
+      end
+    end
+
     describe "#get_task_id" do
       let(:agent) { atcoder.send(:login, ATCODER_USER, ATCODER_PASS, SPEC_HOST) }
 
@@ -163,11 +181,11 @@ module Pcoder
       let(:agent) { atcoder.send(:login, ATCODER_USER, ATCODER_PASS, SPEC_HOST) }
 
       context "with nil" do
-        it { proc {atcoder.send(:submit, agent, nil, nil, nil)}.should raise_error("InputFormError") }
+        it { proc {atcoder.send(:submit, agent, nil, nil, nil)}.should raise_error(InputFormError) }
       end
 
       context "with source code is empty" do
-        it { proc {atcoder.send(:submit, agent, "440", "1", "")}.should raise_error("InputFormError") }
+        it { proc {atcoder.send(:submit, agent, "440", "1", "")}.should raise_error(InputFormError) }
       end
     end
   end
