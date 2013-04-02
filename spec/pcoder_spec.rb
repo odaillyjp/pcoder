@@ -1,11 +1,13 @@
 # coding: utf-8
-$LOAD_PATH << File.expand_path("../../", __FILE__)
-require 'rspec'
-require 'lib/pcoder'
-require 'spec/tmp/account.rb'
-
+require 'spec_helper'
 module Pcoder
   SPEC_HOST = "arc012.contest.atcoder.jp"
+
+  describe "VERSION" do
+    it 'should have a version number' do
+      VERSION.should_not be_nil
+    end
+  end
 
   describe Atcoder do
     let(:atcoder) { Atcoder.new }

@@ -1,4 +1,10 @@
 source 'https://rubygems.org'
+
+# Specify your gem's dependencies in pcoder.gemspec
+gemspec
 gem 'mechanize'
 gem 'highline'
-gem 'rspec'
+
+group :test do
+  gem 'rspec'
+end
