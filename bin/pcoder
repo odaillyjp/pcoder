@@ -8,6 +8,6 @@ if ARGV[0].nil?
   exit
 end
 
-user = HighLine.new.ask("Enter your user id:  ")
-pass = HighLine.new.ask("Enter your password:  ") { |q| q.echo = "*" }
+user = HighLine.new.ask("USERNAME: ")
+pass = HighLine.new.ask("PASSWORD: ") { |q| q.echo = "*" }
 Pcoder::Atcoder.new.process(user, pass, ARGV[0])
