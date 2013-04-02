@@ -23,7 +23,7 @@ module Pcoder
 
     describe "#login" do
       context "with not_user, not_pass" do
-        it { atcoder.send(:login, 'foo', 'bar', SPEC_HOST).should be_nil }
+        it { proc { atcoder.send(:login, 'foo', 'bar', SPEC_HOST)}.should raise_error(LoginError) }
       end
 
       context "with user, pass" do
@@ -31,21 +31,21 @@ module Pcoder
       end
     end
 
-    describe "#to_task_number" do
+    describe "#to_task_postion" do
       context "with \"A\"" do
-        it { atcoder.send(:to_task_number, "A").should eq "1" }
+        it { atcoder.send(:to_task_postion, "A").should eq 1 }
       end
 
       context "with \"B\"" do
-        it { atcoder.send(:to_task_number, "B").should eq "2" }
+        it { atcoder.send(:to_task_postion, "B").should eq 2 }
       end
 
       context "with \"a\"" do
-        it { atcoder.send(:to_task_number, "a").should eq "1" }
+        it { atcoder.send(:to_task_postion, "a").should eq 1 }
       end
 
       context "with \"1\"" do
-        it { atcoder.send(:to_task_number, "1").should eq "" }
+        it { atcoder.send(:to_task_postion, "1").should be_nil }
       end
     end
 
