@@ -1,0 +1,3 @@
+# Atcoder account to use with rspec.
+ATCODER_USER = "example"
+ATCODER_PASS = "example"
