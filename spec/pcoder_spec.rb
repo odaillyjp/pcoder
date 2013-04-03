@@ -9,10 +9,11 @@ module Pcoder
     let(:atcoder) { Atcoder.new }
 
     describe "#process" do
+      let(:path) { File.expand_path(SPEC_FILE, __FILE__) }
+      let(:receiver) { double("atcoder") }
+
       context "with user, pass, path, mock_model" do
         it "call Atcoder#submit with code" do
-          path = File.expand_path(SPEC_FILE, __FILE__)
-          receiver = double("atcoder")
           receiver.should_receive(:submit).with(kind_of(Mechanize), "207", "9", "# Method check.\n")
           atcoder.process(ATCODER_USER, ATCODER_PASS, path, receiver)
         end
