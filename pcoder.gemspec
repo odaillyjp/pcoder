@@ -5,7 +5,7 @@ require 'pcoder/version'
 
 Gem::Specification.new do |gem|
   gem.name          = "pcoder"
-  gem.version       = Pcoder::VERSION
+  gem.version       = "0.0.1"
   gem.authors       = ["Suguru Odai"]
   gem.email         = ["ourqwers@gmail.com"]
   gem.description   = %q{TODO: Write a gem description}

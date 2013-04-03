@@ -1,13 +1,9 @@
 # coding: utf-8
 require 'spec_helper'
+
 module Pcoder
   SPEC_HOST = "arc012.contest.atcoder.jp"
-
-  describe "VERSION" do
-    it 'should have a version number' do
-      VERSION.should_not be_nil
-    end
-  end
+  SPEC_FILE = "../etc/practice_1.rb"
 
   describe Atcoder do
     let(:atcoder) { Atcoder.new }
@@ -15,7 +11,7 @@ module Pcoder
     describe "#process" do
       context "with user, pass, path, mock_model" do
         it "call Atcoder#submit with code" do
-          path = File.expand_path("../tmp/practice_1.rb", __FILE__)
+          path = File.expand_path(SPEC_FILE, __FILE__)
           receiver = double("atcoder")
           receiver.should_receive(:submit).with(kind_of(Mechanize), "207", "9", "# Method check.\n")
           atcoder.process(ATCODER_USER, ATCODER_PASS, path, receiver)

@@ -1,3 +1,5 @@
+.*
+!.git*
 *.gem
-spec/tmp/account.rb
-!spec/tmp/account.rb.example
+spec/etc/account.rb
+!spec/etc/account.rb.example

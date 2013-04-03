@@ -1,4 +1,3 @@
-require 'pcoder/version'
 require 'mechanize'
 require 'optparse'
 
