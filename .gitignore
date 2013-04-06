@@ -1,5 +1,6 @@
 .*
 !.git*
 *.gem
+pkg/*
 spec/etc/account.rb
 !spec/etc/account.rb.example
