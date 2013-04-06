@@ -47,6 +47,6 @@ Task: http://arc013.contest.atcoder.jp/tasks/arc013_3
 ## Help
 
     pcoder [file...]
-    -t                  Set contest task name. Example: [ --t practice_1 ]
+    -t                  Set contest task name. Example: [ -t practice_1 ]
     --proxy             Set proxy host. Example: [ --proxy proxy.example.com:8080 ]
     -h --help           Display Help.
