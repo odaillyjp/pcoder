@@ -1,29 +1,32 @@
 # Pcoder
 
-TODO: Write a gem description
+Pcoder submits file to AtCoder.
+http://atcoder.jp/
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'pcoder'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
 
     $ gem install pcoder
 
 ## Usage
 
-TODO: Write usage instructions here
+File naming the following rules.
 
-## Contributing
+    [Contest sub domain]_[task].[expansion]
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+* Example
+    Task: http://practice.contest.atcoder.jp/tasks/practice_1
+    Filename: practice_1.rb
+
+    Task: http://arc013.contest.atcoder.jp/tasks/arc013_3
+    Filename: arc013_3.py
+
+    $ pcoder [File..]
+
+"USERNAME: " Enter Your AtCoder ID.
+"PASSWORD: " Enter Your AtCoder Password.
+
+Submit file to AtCoder.
+
+## Help
+
+TODO

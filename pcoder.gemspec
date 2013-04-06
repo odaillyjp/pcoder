@@ -7,8 +7,8 @@ Gem::Specification.new do |gem|
   gem.version       = "0.0.1"
   gem.authors       = ["Suguru Odai"]
   gem.email         = ["ourqwers@gmail.com"]
-  gem.description   = "Pcoer submits source code to atcoder."
-  gem.summary       = "Pcoer submits source code to atcoder."
+  gem.description   = "Pcoder submits source code to atcoder."
+  gem.summary       = "Pcoder submits source code to atcoder."
   gem.homepage      = "https://github.com/Shindo200/pcoder"
   gem.license       = "MIT"
 
