@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = "pcoder"
-  gem.version       = "0.0.2"
+  gem.version       = "0.0.3"
   gem.authors       = ["Suguru Odai"]
   gem.email         = ["ourqwers@gmail.com"]
   gem.description   = "Pcoder submits local file to atcoder."
