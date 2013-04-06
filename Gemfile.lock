@@ -2,6 +2,8 @@ PATH
   remote: .
   specs:
     pcoder (0.0.1)
+      highline
+      mechanize
 
 GEM
   remote: https://rubygems.org/
@@ -41,8 +43,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  highline
-  mechanize
   pcoder!
   rake
   rspec

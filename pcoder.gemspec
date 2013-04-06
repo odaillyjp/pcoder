@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["ourqwers@gmail.com"]
   gem.description   = %q{TODO: Write a gem description}
   gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/Shindo200/pcoder"
   gem.license       = "MIT"
 
   gem.files         = `git ls-files`.split($/)
@@ -17,5 +17,8 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
+  gem.add_dependency "mechanize"
+  gem.add_dependency "highline"
   gem.add_development_dependency "rake"
+  gem.add_development_dependency "rspec"
 end
