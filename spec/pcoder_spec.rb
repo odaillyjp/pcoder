@@ -19,31 +19,17 @@ module Pcoder
     end
 
     describe "#set_task_option" do
-      context "with \"A\"" do
+      context "with \"arc012_1\"" do
         it do
-          source.send(:set_task_option, "A")
-          source.task.should eq 1
+          source.send(:set_task_option, "arc012_1")
+          source.task.should eq "1"
         end
       end
 
-      context "with \"B\"" do
+      context "with \"arc012_2\"" do
         it do
-          source.send(:set_task_option, "B")
-          source.task.should eq 2
-        end
-      end
-
-      context "with \"a\"" do
-        it do
-          source.send(:set_task_option, "a")
-          source.task.should eq 1
-        end
-      end
-
-      context "with \"1\"" do
-        it do
-          source.send(:set_task_option, "1")
-          source.task.should be_nil
+          source.send(:set_task_option, "arc012_2")
+          source.task.should eq "2"
         end
       end
     end
@@ -180,11 +166,11 @@ module Pcoder
         end
       end
 
-      context "with task option \"A\"" do
-        before { processor.instance_eval { @opts[:task] = "A" }}
+      context "with task option \"practice_1\"" do
+        before { processor.instance_eval { @opts[:task] = "practice_1" }}
 
         it "call SourceCode#set_task_option with task value" do
-          source.should_receive(:set_task_option).with("A")
+          source.should_receive(:set_task_option).with("practice_1")
           processor.run(path, this, atcoder, source)
         end
       end
@@ -195,8 +181,8 @@ module Pcoder
         it { processor.send(:contest_host, "practice_1.rb").should eq "practice.contest.atcoder.jp" }
       end
 
-      context "with sub option \"arc012\""do
-        before { processor.instance_eval { @opts[:sub] = "arc012" }}
+      context "with task option \"arc012_1\""do
+        before { processor.instance_eval { @opts[:task] = "arc012_1" }}
         it { processor.send(:contest_host, "practice_1.rb").should eq "arc012.contest.atcoder.jp" }
       end
     end

@@ -16,8 +16,8 @@ module Pcoder
       @body = File.open(path).read
     end
 
-    def set_task_option(str)
-      @task = ("@".."Z").to_a.index(str.upcase)
+    def set_task_option(task)
+      @task = task.split("_").last
     end
 
     private
@@ -121,8 +121,7 @@ module Pcoder
     def parse_options
       opt = OptionParser.new
       opt.banner = "#{File.basename($0)} [file...]"
-      opt.on("-s SubDomain", "Set Atcoder contest site sub domain.") {|v| @opts[:sub] = v }
-      opt.on("-t Task", "Set task alphabet.") {|v| @opts[:task] = v }
+      opt.on("-t Task", "Set contest task name.") {|v| @opts[:task] = v }
       opt.on("--proxy Proxy", "Set proxy host. Example: \[ --proxy proxy.example.com:8080 \]") {|v| @opts[:proxy] = v }
       opt.on("-h", "--help", "Display Help.") do
         puts opt.help
@@ -147,7 +146,7 @@ module Pcoder
     end
 
     def contest_host(basename)
-      sub_domain = @opts[:sub] || basename.split("_").first
+      sub_domain = (@opts[:task] || basename ).split("_").first
       "#{sub_domain}.#{ATCODER_HOST}"
     end
   end
