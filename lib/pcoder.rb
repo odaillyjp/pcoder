@@ -5,48 +5,121 @@ require 'highline'
 module Pcoder
   ATCODER_HOST = "contest.atcoder.jp"
 
+  class SourceCode
+    attr_reader :basename, :language_id, :task, :body
+
+    def initialize(path)
+      @basename = File.basename(path)
+      extname = File.extname(path)
+      @language_id = to_language_id(extname)
+      @task = @basename.split(/[_.]/)[1]
+      @body = File.open(path).read
+    end
+
+    def set_task_option(str)
+      @task = ("@".."Z").to_a.index(str.upcase)
+    end
+
+    private
+
+    def to_language_id(extname)
+      case extname
+      # C
+      when ".c" then "1"
+      # C++
+      when ".cc", ".cpp" then "2"
+      # Java
+      when ".java" then "3"
+      # PHP
+      when ".php" then "5"
+      # D
+      when ".d" then "6"
+      # Python
+      when ".py" then "7"
+      # Perl
+      when ".pl" then "8"
+      # Ruby
+      when ".rb" then "9"
+      # Haskell
+      when ".hs" then "11"
+      # Pascal
+      when ".p", ".pp", ".pas" then "12"
+      # HavaScript
+      when ".js" then "15"
+      # Visual Basic
+      when ".vb" then "16"
+      # Text
+      when ".txt", ".text" then "17"
+      else nil
+      end
+    end
+  end
+
   class Atcoder
+    def initialize
+      @agent = Mechanize.new
+    end
+
+    def login(user, pass, host)
+      @agent.get("http://#{host}/login")
+      before_uri = @agent.page.uri
+      @agent.page.form_with do |f|
+        f.field_with(:name => "name").value = user
+        f.field_with(:name => "password").value = pass
+      end.click_button
+      if @agent.page.uri == before_uri
+        mes = "The username or password you entered is incorrect."
+        raise LoginError.exception(mes)
+      end
+      true
+    end
+
+    def submit(source)
+      @agent.get("http://#{@agent.page.uri.host}/submit")
+      task_id = get_task_id(source.task)
+      @agent.page.form_with do |f|
+        f.field_with(:name => "task_id").value = task_id
+        f.field_with(:name => "language_id_#{task_id}").value = source.language_id
+        f.field_with(:name => "source_code").value = source.body
+      end.click_button
+      if @agent.page.uri.path == "/submit"
+        mes = "Please check file name or body and try again"
+        raise InputFormError.exception(mes)
+      end
+      true
+    end
+
+    def set_proxy(proxy)
+      host, port = proxy.split(":")
+      @agent.set_proxy(host, port)
+    end
+
+    def get_task_id(pos)
+      @agent.get("http://#{@agent.page.uri.host}/submit")
+      selecter = "//select[@id=\"submit-task-selector\"]/option[#{pos}]"
+      @agent.page.at(selecter)['value']
+    end
+  end
+
+  class Processor
     def initialize
       @opts = {}
       parse_options
     end
 
-    def process(user = nil, pass = nil, path = nil, this = self)
-      user = enter_username if user.nil?
-      pass = enter_password if pass.nil?
-      path = ARGV[0] if path.nil?
-      file = File.basename(path)
-      sub_domain, task_pos, extension = file.split(/[_.]/)
-      sub_domain = @opts[:sub] if @opts[:sub]
-      host = "#{sub_domain}.#{ATCODER_HOST}"
-      agent = login(user, pass, host)
-      task_pos = to_task_postion(@opts[:task]) if @opts[:task]
-      task_id = get_task_id(agent, task_pos)
-      language_value = language(extension)
-      source_code = File.open(path).read
-      puts "Successfully uploaded." if this.submit(agent, task_id, language_value, source_code)
-    end
-
-    def exit_with_not_file
-      puts "Please specify a file and try again."
-      exit
+    def run(path = ARGV[0], this = self, atcoder = Atcoder.new, source = nil)
+      exit_with_message("Please specify a file and try agein.") if path.nil?
+      user = this.enter_username
+      pass = this.enter_password
+      source ||= SourceCode.new(path)
+      host = contest_host(source.basename)
+      atcoder.login(user, pass, host)
+      atcoder.set_proxy(@opts[:proxy]) if @opts[:proxy]
+      source.set_task_option(@opts[:task]) if @opts[:task]
+      puts "Successfully uploaded." if atcoder.submit(source)
     end
 
     protected
-
-    def submit(agent, task_id, language_value, source_code)
-      raise InputFormError if task_id.nil? || language_value.nil? || source_code.nil?
-      agent.get("http://#{agent.page.uri.host}/submit")
-      agent.page.form_with do |f|
-        f.field_with(:name => "task_id").value = task_id
-        f.field_with(:name => "language_id_#{task_id}").value = language_value
-        f.field_with(:name => "source_code").value = source_code
-      end.click_button
-      raise InputFormError if agent.page.uri.path == "/submit"
-      true
-    end
-
-    private
 
     def parse_options
       opt = OptionParser.new
@@ -60,6 +133,11 @@ module Pcoder
       end
     end
 
+    def exit_with_message(mes)
+      puts mes
+      exit
+    end
+
     def enter_username
       HighLine.new.ask("USERNAME: ")
     end
@@ -68,68 +146,9 @@ module Pcoder
       HighLine.new.ask("PASSWORD: ") { |q| q.echo = "*" }
     end
 
-    def login(user, pass, host)
-      agent = Mechanize.new
-      agent = set_agent_proxy(agent) if @opts[:proxy]
-      agent.get("http://#{host}/login")
-      before_uri = agent.page.uri
-      agent.page.form_with do |f|
-        f.field_with(:name => "name").value = user
-        f.field_with(:name => "password").value = pass
-      end.click_button
-      if agent.page.uri == before_uri
-        mes = "The username or password you entered is incorrect."
-        raise LoginError.exception(mes)
-      end
-      agent
-    end
-
-    def set_agent_proxy(agent)
-      host, port = @opts[:proxy].split(":")
-      agent.set_proxy(host, port)
-      agent
-    end
-
-    def to_task_postion(str)
-      ("@".."Z").to_a.index(str.upcase)
-    end
-
-    def get_task_id(agent, pos)
-      agent.get("http://#{agent.page.uri.host}/submit")
-      selecter = "//select[@id=\"submit-task-selector\"]/option[#{pos}]"
-      agent.page.at(selecter)['value']
-    end
-
-    def language(extension)
-      case extension
-      # C
-      when "c" then "1"
-      # C++
-      when "cc", "cpp" then "2"
-      # Java
-      when "java" then "3"
-      # PHP
-      when "php" then "5"
-      # D
-      when "d" then "6"
-      # Python
-      when "py" then "7"
-      # Perl
-      when "pl" then "8"
-      # Ruby
-      when "rb" then "9"
-      # Haskell
-      when "hs" then "11"
-      # Pascal
-      when "p", "pp", "pas" then "12"
-      # HavaScript
-      when "js" then "15"
-      # Visual Basic
-      when "vb" then "16"
-      # Text
-      when "txt", "text" then "17"
-      else nil
-      end
+    def contest_host(basename)
+      sub_domain = @opts[:sub] || basename.split("_").first
+      "#{sub_domain}.#{ATCODER_HOST}"
     end
   end
 

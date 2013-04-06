@@ -2,6 +2,4 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'pcoder'
 
-pcoder = Pcoder::Atcoder.new
-pcoder.exit_with_not_file if ARGV[0].nil?
-pcoder.process
+Pcoder::Processor.new.run

@@ -5,20 +5,126 @@ module Pcoder
   SPEC_HOST = "arc012.contest.atcoder.jp"
   SPEC_FILE = "../etc/practice_1.rb"
 
-  describe Atcoder do
-    let(:atcoder) { Atcoder.new }
+  describe SourceCode do
+    let(:path) { File.expand_path(SPEC_FILE, __FILE__) }
+    let(:source) { SourceCode.new(path) }
 
-    describe "#process" do
-      let(:path) { File.expand_path(SPEC_FILE, __FILE__) }
-      let(:receiver) { double("atcoder") }
+    describe "#initialize" do
+      context "with \"#{SPEC_FILE}\"" do
+        it { source.basename.should eq "practice_1.rb" }
+        it { source.language_id.should eq "9" }
+        it { source.task.should eq "1" }
+        it { source.body.should eq "# Method check.\n" }
+      end
+    end
 
-      context "with user, pass, path, mock_model" do
-        it "call Atcoder#submit with code" do
-          receiver.should_receive(:submit).with(kind_of(Mechanize), "207", "9", "# Method check.\n")
-          atcoder.process(ATCODER_USER, ATCODER_PASS, path, receiver)
+    describe "#set_task_option" do
+      context "with \"A\"" do
+        it do
+          source.send(:set_task_option, "A")
+          source.task.should eq 1
+        end
+      end
+
+      context "with \"B\"" do
+        it do
+          source.send(:set_task_option, "B")
+          source.task.should eq 2
+        end
+      end
+
+      context "with \"a\"" do
+        it do
+          source.send(:set_task_option, "a")
+          source.task.should eq 1
+        end
+      end
+
+      context "with \"1\"" do
+        it do
+          source.send(:set_task_option, "1")
+          source.task.should be_nil
         end
       end
     end
+
+    describe "#to_language_id" do
+      context "with \".c\"" do
+        it { source.send(:to_language_id, ".c").should eq "1" }
+      end
+
+      context "with \".cc\"" do
+        it { source.send(:to_language_id, ".cc").should eq "2" }
+      end
+
+      context "with \".cpp\"" do
+        it { source.send(:to_language_id, ".cpp").should eq "2" }
+      end
+
+      context "with \".java\"" do
+        it { source.send(:to_language_id, ".java").should eq "3" }
+      end
+
+      context "with \".php\"" do
+        it { source.send(:to_language_id, ".php").should eq "5" }
+      end
+
+      context "with \".d\"" do
+        it { source.send(:to_language_id, ".d").should eq "6" }
+      end
+
+      context "with \".py\"" do
+        it { source.send(:to_language_id, ".py").should eq "7" }
+      end
+
+      context "with \".pl\"" do
+        it { source.send(:to_language_id, ".pl").should eq "8" }
+      end
+
+      context "with \".rb\"" do
+        it { source.send(:to_language_id, ".rb").should eq "9" }
+      end
+
+      context "with \".hs\"" do
+        it { source.send(:to_language_id, ".hs").should eq "11" }
+      end
+
+      context "with \".p\"" do
+        it { source.send(:to_language_id, ".p").should eq "12" }
+      end
+
+      context "with \".pp\"" do
+        it { source.send(:to_language_id, ".pp").should eq "12" }
+      end
+
+      context "with \".pas\"" do
+        it { source.send(:to_language_id, ".pas").should eq "12" }
+      end
+
+      context "with \".js\"" do
+        it { source.send(:to_language_id, ".js").should eq "15" }
+      end
+
+      context "with \".vb\"" do
+        it { source.send(:to_language_id, ".vb").should eq "16" }
+      end
+
+      context "with \".txt\"" do
+        it { source.send(:to_language_id, ".txt").should eq "17" }
+      end
+
+      context "with \".text\"" do
+        it { source.send(:to_language_id, ".text").should eq "17" }
+      end
+
+      context "with \"\"" do
+        it { source.send(:to_language_id, "").should be_nil }
+      end
+    end
+  end
+
+  describe Atcoder do
+    let(:atcoder) { Atcoder.new }
 
     describe "#login" do
       context "with not_user, not_pass" do
@@ -26,123 +132,72 @@ module Pcoder
       end
 
       context "with user, pass" do
-        it { atcoder.send(:login, ATCODER_USER, ATCODER_PASS, SPEC_HOST).class.should eq Mechanize }
+        it { atcoder.send(:login, ATCODER_USER, ATCODER_PASS, SPEC_HOST).class.should be_true }
       end
     end
 
-    describe "#to_task_postion" do
-      context "with \"A\"" do
-        it { atcoder.send(:to_task_postion, "A").should eq 1 }
-      end
-
-      context "with \"B\"" do
-        it { atcoder.send(:to_task_postion, "B").should eq 2 }
-      end
-
-      context "with \"a\"" do
-        it { atcoder.send(:to_task_postion, "a").should eq 1 }
-      end
-
-      context "with \"1\"" do
-        it { atcoder.send(:to_task_postion, "1").should be_nil }
-      end
-    end
 
     describe "#get_task_id" do
-      let(:agent) { atcoder.send(:login, ATCODER_USER, ATCODER_PASS, SPEC_HOST) }
+      before { atcoder.send(:login, ATCODER_USER, ATCODER_PASS, SPEC_HOST) }
 
       context "with agent, \"1\"" do
-        it { atcoder.send(:get_task_id, agent, "1").should eq "440" }
+        it { atcoder.send(:get_task_id, "1").should eq "440" }
       end
 
       context "with agent, \"2\"" do
-        it { atcoder.send(:get_task_id, agent, "2").should eq "441" }
+        it { atcoder.send(:get_task_id, "2").should eq "441" }
+      end
+    end
+  end
+
+  describe Processor do
+    let(:processor) { Processor.new }
+
+    describe "#run" do
+      let(:path) { File.expand_path(SPEC_FILE, __FILE__) }
+      let(:atcoder) { double("atcoder").as_null_object }
+      let(:source) { double("source").as_null_object }
+      let(:this) { double("processor") }
+      before do
+        atcoder.stub(:submit).and_return(nil)
+        this.stub(:enter_username).and_return(ATCODER_USER)
+        this.stub(:enter_password).and_return(ATCODER_PASS)
+      end
+
+      context "with user, pass, path, mock_model" do
+        it "call Atcoder#submit with SourceCode" do
+          atcoder.should_receive(:submit).with(kind_of(SourceCode))
+          processor.run(path, this, atcoder)
+        end
+      end
+
+      context "with proxy option \"proxy.example.com\"" do
+        before { processor.instance_eval { @opts[:proxy] = "proxy.example.com" }}
+
+        it "call Atcoder#set_proxy with proxy value" do
+          atcoder.should_receive(:set_proxy).with("proxy.example.com")
+          processor.run(path, this, atcoder)
+        end
+      end
+
+      context "with task option \"A\"" do
+        before { processor.instance_eval { @opts[:task] = "A" }}
+
+        it "call SourceCode#set_task_option with task value" do
+          source.should_receive(:set_task_option).with("A")
+          processor.run(path, this, atcoder, source)
+        end
       end
     end
 
-    describe "#language" do
-      context "with \"c\"" do
-        it { atcoder.send(:language, "c").should eq "1" }
+    describe "#contest_host" do
+      context "with \"practice_1.rb\""do
+        it { processor.send(:contest_host, "practice_1.rb").should eq "practice.contest.atcoder.jp" }
       end
 
-      context "with \"cc\"" do
-        it { atcoder.send(:language, "cc").should eq "2" }
-      end
-
-      context "with \"cpp\"" do
-        it { atcoder.send(:language, "cpp").should eq "2" }
-      end
-
-      context "with \"java\"" do
-        it { atcoder.send(:language, "java").should eq "3" }
-      end
-
-      context "with \"php\"" do
-        it { atcoder.send(:language, "php").should eq "5" }
-      end
-
-      context "with \"d\"" do
-        it { atcoder.send(:language, "d").should eq "6" }
-      end
-
-      context "with \"py\"" do
-        it { atcoder.send(:language, "py").should eq "7" }
-      end
-
-      context "with \"pl\"" do
-        it { atcoder.send(:language, "pl").should eq "8" }
-      end
-
-      context "with \"rb\"" do
-        it { atcoder.send(:language, "rb").should eq "9" }
-      end
-
-      context "with \"hs\"" do
-        it { atcoder.send(:language, "hs").should eq "11" }
-      end
-
-      context "with \"p\"" do
-        it { atcoder.send(:language, "p").should eq "12" }
-      end
-
-      context "with \"pp\"" do
-        it { atcoder.send(:language, "pp").should eq "12" }
-      end
-
-      context "with \"pas\"" do
-        it { atcoder.send(:language, "pas").should eq "12" }
-      end
-
-      context "with \"js\"" do
-        it { atcoder.send(:language, "js").should eq "15" }
-      end
-
-      context "with \"vb\"" do
-        it { atcoder.send(:language, "vb").should eq "16" }
-      end
-
-      context "with \"txt\"" do
-        it { atcoder.send(:language, "txt").should eq "17" }
-      end
-
-      context "with \"text\"" do
-        it { atcoder.send(:language, "text").should eq "17" }
-      end
-
-      context "with \"\"" do
-        it { atcoder.send(:language, "").should be_nil }
-      end
-    end
-
-    describe "#submit" do
-      let(:agent) { atcoder.send(:login, ATCODER_USER, ATCODER_PASS, SPEC_HOST) }
-
-      context "with nil" do
-        it { proc {atcoder.send(:submit, agent, nil, nil, nil)}.should raise_error(InputFormError) }
-      end
-
-      context "with source code is empty" do
-        it { proc {atcoder.send(:submit, agent, "440", "1", "")}.should raise_error(InputFormError) }
+      context "with sub option \"arc012\""do
+        before { processor.instance_eval { @opts[:sub] = "arc012" }}
+        it { processor.send(:contest_host, "practice_1.rb").should eq "arc012.contest.atcoder.jp" }
       end
     end
   end
