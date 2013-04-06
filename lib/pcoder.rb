@@ -139,11 +139,11 @@ module Pcoder
     end
 
     def enter_username
-      HighLine.new.ask("USERNAME: ")
+      HighLine.new.ask("Username: ")
     end
 
     def enter_password
-      HighLine.new.ask("PASSWORD: ") { |q| q.echo = "*" }
+      HighLine.new.ask("Password: ") { |q| q.echo = "*" }
     end
 
     def contest_host(basename)

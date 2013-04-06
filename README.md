@@ -40,8 +40,8 @@ Task: http://arc013.contest.atcoder.jp/tasks/arc013_3
 ## Usage
 
     $ pcoder [file...]
-    USERNAME:  # Enter Your AtCoder ID.
-    PASSWORD:  # Enter Your AtCoder Password.
+    Username:  # Enter Your AtCoder ID.
+    Password:  # Enter Your AtCoder Password.
     Successfully uploaded.
 
 ## Help
