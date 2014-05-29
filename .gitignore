@@ -2,5 +2,5 @@
 *.gem
 pkg/*
 Gemfile.lock
-spec/etc/account.rb
-!spec/etc/account.rb.example
+spec/support/account.rb
+!spec/support/account.rb.example

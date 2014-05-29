@@ -3,7 +3,7 @@ require 'spec_helper'
 
 module Pcoder
   SPEC_HOST = 'arc012.contest.atcoder.jp'
-  SPEC_FILE = '../etc/practice_1.rb'
+  SPEC_FILE = '../../support/practice_1.rb'
 
   describe SourceCode do
     let(:path) { File.expand_path(SPEC_FILE, __FILE__) }
