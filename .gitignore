@@ -2,5 +2,6 @@
 !.git*
 *.gem
 pkg/*
+Gemfile.lock
 spec/etc/account.rb
 !spec/etc/account.rb.example
