@@ -14,7 +14,7 @@ module Pcoder
         it { source.basename.should eq 'practice_1.rb' }
         it { source.language_id.should eq '9' }
         it { source.task.should eq '1' }
-        it { source.body.should eq '# Method check.\n' }
+        it { source.body.should eq "# Method check.\n"  }
       end
     end
 
