@@ -44,7 +44,7 @@ module Pcoder
       when ".hs" then "11"
       # Pascal
       when ".p", ".pp", ".pas" then "12"
-      # HavaScript
+      # JavaScript
       when ".js" then "15"
       # Visual Basic
       when ".vb" then "16"
