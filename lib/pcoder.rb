@@ -1,5 +1,5 @@
 require 'mechanize'
-require 'optparse'
+require 'thor'
 require 'highline'
 
 module Pcoder
@@ -101,7 +101,7 @@ module Pcoder
     end
   end
 
-  class Processor
+  class Console
     def initialize
       @opts = {}
     end

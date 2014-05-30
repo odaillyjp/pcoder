@@ -135,14 +135,14 @@ module Pcoder
     end
   end
 
-  describe Processor do
-    let(:processor) { Processor.new }
+  describe Console do
+    let(:console) { Console.new }
 
     describe '#run' do
       let(:path) { File.expand_path(SPEC_FILE, __FILE__) }
       let(:atcoder) { double('atcoder').as_null_object }
       let(:source) { double('source').as_null_object }
-      let(:this) { double('processor') }
+      let(:this) { double('console') }
       before do
         atcoder.stub(:submit).and_return(nil)
         this.stub(:enter_username).and_return(ATCODER_USER)
@@ -152,25 +152,25 @@ module Pcoder
       context 'with user, pass, path, mock_model' do
         it 'call Atcoder#submit with SourceCode' do
           atcoder.should_receive(:submit).with(kind_of(SourceCode))
-          processor.run(path, this, atcoder)
+          console.run(path, this, atcoder)
         end
       end
 
       context 'with proxy option "proxy.example.com"' do
-        before { processor.instance_eval { @opts[:proxy] = 'proxy.example.com' } }
+        before { console.instance_eval { @opts[:proxy] = 'proxy.example.com' } }
 
         it 'call Atcoder#set_proxy with proxy value' do
           atcoder.should_receive(:parse_fqdn).with('proxy.example.com')
-          processor.run(path, this, atcoder)
+          console.run(path, this, atcoder)
         end
       end
 
       context 'with task option "practice_1"' do
-        before { processor.instance_eval { @opts[:task] = 'practice_1' } }
+        before { console.instance_eval { @opts[:task] = 'practice_1' } }
 
         it 'call SourceCode#parse_task_option with task value' do
           source.should_receive(:parse_task_option).with('practice_1')
-          processor.run(path, this, atcoder, source)
+          console.run(path, this, atcoder, source)
         end
       end
     end
@@ -178,13 +178,13 @@ module Pcoder
     describe '#contest_host' do
       context 'with "practice_1.rb"'do
         it do
-          processor.send(:contest_host, 'practice_1.rb').should eq 'practice.contest.atcoder.jp'
+          console.send(:contest_host, 'practice_1.rb').should eq 'practice.contest.atcoder.jp'
         end
       end
 
       context 'with task option "arc012_1"'do
-        before { processor.instance_eval { @opts[:task] = 'arc012_1' } }
-        it { processor.send(:contest_host, 'practice_1.rb').should eq 'arc012.contest.atcoder.jp' }
+        before { console.instance_eval { @opts[:task] = 'arc012_1' } }
+        it { console.send(:contest_host, 'practice_1.rb').should eq 'arc012.contest.atcoder.jp' }
       end
     end
   end
