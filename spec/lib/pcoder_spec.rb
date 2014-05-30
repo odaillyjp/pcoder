@@ -18,93 +18,93 @@ module Pcoder
       end
     end
 
-    describe '#set_task_option' do
+    describe '#parse_task_option' do
       context 'with "arc012_1"' do
         it do
-          source.send(:set_task_option, 'arc012_1')
+          source.send(:parse_task_option, 'arc012_1')
           source.task.should eq '1'
         end
       end
 
       context 'with "arc012_2"' do
         it do
-          source.send(:set_task_option, 'arc012_2')
+          source.send(:parse_task_option, 'arc012_2')
           source.task.should eq '2'
         end
       end
     end
 
-    describe '#to_language_id' do
+    describe '#correspond_to_language_id' do
       context 'with ".c"' do
-        it { source.send(:to_language_id, '.c').should eq '1' }
+        it { source.send(:correspond_to_language_id, '.c').should eq '1' }
       end
 
       context 'with ".cc"' do
-        it { source.send(:to_language_id, '.cc').should eq '2' }
+        it { source.send(:correspond_to_language_id, '.cc').should eq '2' }
       end
 
       context 'with ".cpp"' do
-        it { source.send(:to_language_id, '.cpp').should eq '2' }
+        it { source.send(:correspond_to_language_id, '.cpp').should eq '2' }
       end
 
       context 'with ".java"' do
-        it { source.send(:to_language_id, '.java').should eq '3' }
+        it { source.send(:correspond_to_language_id, '.java').should eq '3' }
       end
 
       context 'with ".php"' do
-        it { source.send(:to_language_id, '.php').should eq '5' }
+        it { source.send(:correspond_to_language_id, '.php').should eq '5' }
       end
 
       context 'with ".d"' do
-        it { source.send(:to_language_id, '.d').should eq '6' }
+        it { source.send(:correspond_to_language_id, '.d').should eq '6' }
       end
 
       context 'with ".py"' do
-        it { source.send(:to_language_id, '.py').should eq '7' }
+        it { source.send(:correspond_to_language_id, '.py').should eq '7' }
       end
 
       context 'with ".pl"' do
-        it { source.send(:to_language_id, '.pl').should eq '8' }
+        it { source.send(:correspond_to_language_id, '.pl').should eq '8' }
       end
 
       context 'with ".rb"' do
-        it { source.send(:to_language_id, '.rb').should eq '9' }
+        it { source.send(:correspond_to_language_id, '.rb').should eq '9' }
       end
 
       context 'with ".hs"' do
-        it { source.send(:to_language_id, '.hs').should eq '11' }
+        it { source.send(:correspond_to_language_id, '.hs').should eq '11' }
       end
 
       context 'with ".p"' do
-        it { source.send(:to_language_id, '.p').should eq '12' }
+        it { source.send(:correspond_to_language_id, '.p').should eq '12' }
       end
 
       context 'with ".pp"' do
-        it { source.send(:to_language_id, '.pp').should eq '12' }
+        it { source.send(:correspond_to_language_id, '.pp').should eq '12' }
       end
 
       context 'with ".pas"' do
-        it { source.send(:to_language_id, '.pas').should eq '12' }
+        it { source.send(:correspond_to_language_id, '.pas').should eq '12' }
       end
 
       context 'with ".js"' do
-        it { source.send(:to_language_id, '.js').should eq '15' }
+        it { source.send(:correspond_to_language_id, '.js').should eq '15' }
       end
 
       context 'with ".vb"' do
-        it { source.send(:to_language_id, '.vb').should eq '16' }
+        it { source.send(:correspond_to_language_id, '.vb').should eq '16' }
       end
 
       context 'with ".txt"' do
-        it { source.send(:to_language_id, '.txt').should eq '17' }
+        it { source.send(:correspond_to_language_id, '.txt').should eq '17' }
       end
 
       context 'with ".text"' do
-        it { source.send(:to_language_id, '.text').should eq '17' }
+        it { source.send(:correspond_to_language_id, '.text').should eq '17' }
       end
 
       context 'with ""' do
-        it { source.send(:to_language_id, '').should be_nil }
+        it { source.send(:correspond_to_language_id, '').should be_nil }
       end
     end
   end
@@ -168,8 +168,8 @@ module Pcoder
       context 'with task option "practice_1"' do
         before { processor.instance_eval { @opts[:task] = 'practice_1' } }
 
-        it 'call SourceCode#set_task_option with task value' do
-          source.should_receive(:set_task_option).with('practice_1')
+        it 'call SourceCode#parse_task_option with task value' do
+          source.should_receive(:parse_task_option).with('practice_1')
           processor.run(path, this, atcoder, source)
         end
       end
