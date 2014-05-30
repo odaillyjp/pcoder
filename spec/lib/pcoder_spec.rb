@@ -160,7 +160,7 @@ module Pcoder
         before { processor.instance_eval { @opts[:proxy] = 'proxy.example.com' } }
 
         it 'call Atcoder#set_proxy with proxy value' do
-          atcoder.should_receive(:set_proxy).with('proxy.example.com')
+          atcoder.should_receive(:parse_fqdn).with('proxy.example.com')
           processor.run(path, this, atcoder)
         end
       end
