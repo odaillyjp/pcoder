@@ -101,51 +101,26 @@ module Pcoder
     end
   end
 
-  class Console
-    def initialize
-      @opts = {}
-    end
+  class Console < Thor
+    desc 'submit FILE', 'submit a source code file at a task of Atcoder'
 
-    def run(path = ARGV[0], this = self, atcoder = Atcoder.new, source = nil)
-      exit_with_message('Please specify a file and try agein.') if path.nil?
-      user = this.enter_username
-      pass = this.enter_password
-      source ||= SourceCode.new(path)
+    def submit(file_path)
+      user = enter_username
+      pass = enter_password
+      source = SourceCode.new(file_path)
       host = contest_host(source.basename)
+
+      atcoder = Atcoder.new
       atcoder.login(user, pass, host)
-      atcoder.parse_fqdn(@opts[:proxy]) if @opts[:proxy]
-      source.parse_task_option(@opts[:task]) if @opts[:task]
-      puts 'Successfully uploaded.' if atcoder.submit(source)
+      begin
+        atcoder.submit(source)
+        puts 'Successfully uploaded.'
+      rescue
+        # TODO: ファイルの登録に失敗したときのメッセージを追加する
+      end
     end
 
-    def parse_options
-      opt = OptionParser.new
-      opt.banner = "#{File.basename($PROGRAM_NAME)} [file...]"
-      opt.on(
-        '-t Task',
-        'Set contest task name.'
-      ) do |v|
-        @opts[:task] = v
-      end
-      opt.on(
-        '--proxy Proxy',
-        'Set proxy host. Example: [ --proxy proxy.example.com:8080 ]'
-      ) do |v|
-        @opts[:proxy] = v
-      end
-      opt.on('-h', '--help', 'Display Help.') do
-        puts opt.help
-        exit
-      end
-      opt.parse!(ARGV)
-    end
-
-    protected
-
-    def exit_with_message(mes)
-      puts mes
-      exit
-    end
+    private
 
     def enter_username
       HighLine.new.ask('Username: ')
