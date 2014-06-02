@@ -103,12 +103,14 @@ module Pcoder
 
   class Console < Thor
     desc 'submit FILE', 'submit a source code file at a task of Atcoder'
+    option :task, desc: 'Set contest task name. Example: [ --task practice_1 ]'
 
     def submit(file_path)
       user = enter_username
       pass = enter_password
       source = SourceCode.new(file_path)
-      host = contest_host(source.basename)
+      basename = options[:task] || source.basename
+      host = contest_host(basename)
 
       atcoder = Atcoder.new
       atcoder.login(user, pass, host)
