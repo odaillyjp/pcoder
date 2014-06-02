@@ -2,6 +2,4 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'pcoder'
 
-pcoder = Pcoder::Console.new
-pcoder.parse_options
-pcoder.run
+Pcoder::Console.start
