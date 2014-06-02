@@ -138,11 +138,11 @@ module Pcoder
   describe Console do
     let(:console) { Console.new }
 
-    describe '#run' do
-      let(:path) { File.expand_path(SPEC_FILE, __FILE__) }
+    describe '#submit' do
+      let(:file_path) { File.expand_path(SPEC_FILE, __FILE__) }
       let(:atcoder) { double('atcoder').as_null_object }
-      let(:source) { double('source').as_null_object }
       let(:this) { double('console') }
+
       before do
         atcoder.stub(:submit).and_return(nil)
         this.stub(:enter_username).and_return(ATCODER_USER)
@@ -152,25 +152,7 @@ module Pcoder
       context 'with user, pass, path, mock_model' do
         it 'call Atcoder#submit with SourceCode' do
           atcoder.should_receive(:submit).with(kind_of(SourceCode))
-          console.run(path, this, atcoder)
-        end
-      end
-
-      context 'with proxy option "proxy.example.com"' do
-        before { console.instance_eval { @opts[:proxy] = 'proxy.example.com' } }
-
-        it 'call Atcoder#set_proxy with proxy value' do
-          atcoder.should_receive(:parse_fqdn).with('proxy.example.com')
-          console.run(path, this, atcoder)
-        end
-      end
-
-      context 'with task option "practice_1"' do
-        before { console.instance_eval { @opts[:task] = 'practice_1' } }
-
-        it 'call SourceCode#parse_task_option with task value' do
-          source.should_receive(:parse_task_option).with('practice_1')
-          console.run(path, this, atcoder, source)
+          console.submit(file_path, atcoder, this)
         end
       end
     end
@@ -180,11 +162,6 @@ module Pcoder
         it do
           console.send(:contest_host, 'practice_1.rb').should eq 'practice.contest.atcoder.jp'
         end
-      end
-
-      context 'with task option "arc012_1"'do
-        before { console.instance_eval { @opts[:task] = 'arc012_1' } }
-        it { console.send(:contest_host, 'practice_1.rb').should eq 'arc012.contest.atcoder.jp' }
       end
     end
   end
