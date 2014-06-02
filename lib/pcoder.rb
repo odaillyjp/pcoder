@@ -104,12 +104,13 @@ module Pcoder
   class Console < Thor
     desc 'submit FILE', 'submit a source code file at a task of Atcoder'
 
-    def submit(file_path, atcoder = Atcoder.new, this = self)
-      user = this.enter_username
-      pass = this.enter_password
+    def submit(file_path)
+      user = enter_username
+      pass = enter_password
       source = SourceCode.new(file_path)
       host = contest_host(source.basename)
 
+      atcoder = Atcoder.new
       atcoder.login(user, pass, host)
       begin
         atcoder.submit(source)

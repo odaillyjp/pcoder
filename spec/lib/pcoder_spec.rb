@@ -138,25 +138,6 @@ module Pcoder
   describe Console do
     let(:console) { Console.new }
 
-    describe '#submit' do
-      let(:file_path) { File.expand_path(SPEC_FILE, __FILE__) }
-      let(:atcoder) { double('atcoder').as_null_object }
-      let(:this) { double('console') }
-
-      before do
-        atcoder.stub(:submit).and_return(nil)
-        this.stub(:enter_username).and_return(ATCODER_USER)
-        this.stub(:enter_password).and_return(ATCODER_PASS)
-      end
-
-      context 'with user, pass, path, mock_model' do
-        it 'call Atcoder#submit with SourceCode' do
-          atcoder.should_receive(:submit).with(kind_of(SourceCode))
-          console.submit(file_path, atcoder, this)
-        end
-      end
-    end
-
     describe '#contest_host' do
       context 'with "practice_1.rb"'do
         it do
